@@ -1,5 +1,5 @@
 # inventory
-Aplikasi penjualan dan inventory barang. Database mengunakan postgres
+Aplikasi penjualan dan inventory barang (Spring dan postgres)
 
 Role akses dinamis.
 
