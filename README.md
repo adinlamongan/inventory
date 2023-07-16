@@ -1,5 +1,5 @@
 # inventory
-Aplikasi penjualan dan inventory barang (Spring dan postgres)
+Aplikasi penjualan dan inventory barang (Spring, thymleaf dan postgres)
 
 Role akses dinamis.
 
