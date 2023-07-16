@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="col-lg-12">
+
+            <div class="panel panel-hitam">
+                <div class="panel-heading">
+                    Dashboard
+                </div>
+                <!-- /.panel-heading -->
+                <div style="padding-left:0; padding-right:0; padding-top: 11px;" class="panel-body">
+                    <div th:if="${data == null} ">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="tabeldetail">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding-left: 12px;">Data tidak ditemukan</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                    
+
+                </div>
+                <!-- /.panel-body -->
+
+                <!-- <div class="panel-footer">
+        
+                                    </div> -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+    <th:block layout:fragment="script">
+        <script th:src="@{~/mastertemplate/js/jquery.serialize-object.min.js}"></script>
+        <script>
+            
+        </script>
+    </th:block>
+</body>
+
+</html>

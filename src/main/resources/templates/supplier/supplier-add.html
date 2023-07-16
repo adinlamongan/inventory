@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="col-lg-12">
+            <div class="panel panel-hitam">
+                <div class="panel-heading">
+                    Tambah <span th:text="${title}"></span>
+                </div>
+                <!-- /.panel-heading -->
+                <div style="padding-left:0; padding-right:0; padding-top: 11px;" class="panel-body">
+
+                    <form id="form_data">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="tabeldetail">
+
+                                <tbody>
+                                    <tr>
+                                        <td class="label_caption">Kode</td>
+                                        <td>
+                                            <input type="text" name="kode" class="form-control inputreg" id="txt_kode">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label_caption">Nama</td>
+                                        <td>
+                                            <input type="text" name="nama" class="form-control inputreg" id="txt_nama">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label_caption">Alamat</td>
+                                        <td>
+                                            <input type="text" name="alamat" class="form-control inputlg"
+                                                id="txt_alamat">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label_caption">Telepon</td>
+                                        <td>
+                                            <input type="text" name="telepon" class="form-control inputreg"
+                                                id="txt_telepon">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="label_caption">Fax</td>
+                                        <td>
+                                            <input type="text" name="fax" class="form-control inputreg" id="txt_fax">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table id="tabeltombol">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-default btn_back" id="btn_back"
+                                                data-href="/supplier">
+                                                <i class="fa fa-arrow-left" aria-hidden="true" title="Back"></i>
+                                                Batal
+                                            </button>
+                                            <button type="button" class="btn btn-default" id="btn_save">
+                                                <i class="fa fa-download" aria-hidden="true" title="Save data"></i>
+                                                Save
+                                            </button>
+                                            <!-- <button type="button" class="btn btn-default" id="btn_save2">
+                                                <i class="fa fa-download" aria-hidden="true" title="Save data"></i>
+                                                Save
+                                            </button> -->
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+
+                </div>
+                <!-- /.panel-body -->
+
+                <!-- <div class="panel-footer">
+        
+                                    </div> -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+    <th:block layout:fragment="script">
+        <script th:src="@{~/mastertemplate/js/jquery.serialize-object.min.js}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#txt_kode").focus();
+                $(document).on("click", "#btn_save", function (e) {
+                    e.preventDefault();
+                    var value = $("#form_data").serializeJSON();
+                    $("#btn_save").prop("disabled", true);
+                    $.ajax({
+                        contentType: "application/json",
+                        type: "POST",
+                        url: "/supplier",
+                        data: value,
+                        dataType: 'json',
+                        success: function (res) {
+                            alert(res.message);
+                            $("#btn_back").click();
+                        },
+                        error: function (res) {
+                            alert(res.responseJSON.message)
+                        },
+                        complete :function(res) { 
+                            $("#btn_save").prop("disabled", false);;
+                        }
+                    });
+                });
+
+                
+
+                // $(document).on("click", "#btn_save2", function (e) {
+                //     e.preventDefault();
+                //     var value = $("#form_data").serializeJSON();
+                //     $("#btn_save").prop("disabled", true);
+                //     $.ajax({
+                //         contentType: "application/json",
+                //         type: "POST",
+                //         url: "/supplier_add2",
+                //         data: value,
+                //         dataType: 'json',
+                //         success: function (res) {
+                //             alert('Berhasil simpan data');
+                //             $("#btn_save").prop("disabled", false);;
+                //             $("#btn_back").click()
+                //         }
+                //     });
+                // });
+
+                $('.btn_back').on('click', function () {
+                    window.location.href = $(this).data('href');
+                });
+            });
+        </script>
+    </th:block>
+</body>
+
+</html>

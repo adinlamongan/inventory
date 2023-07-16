@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @media print {
+        body {-webkit-print-color-adjust: exact;}
+        }
+    </style>
+</head>
+<body>
+    <table style="width: 100%;">
+        <tbody>
+            <tr>
+                <td style="width: 9.3548%;" colspan="2">
+                <div style="text-align: center;"><h2 >Kartu Stok</h2></div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:10;">Tanggal</td>
+                <td style="width: 90%;">: [[${#dates.format(header.tanggalMulai, 'dd-MM-yyyy')}]] S/D [[${#dates.format(header.tanggalSampai, 'dd-MM-yyyy')}]]</td>
+            </tr>
+            <tr>
+                <td style="width:10;">Nama Barang</td>
+                <td style="width: 90%;">: [[${header.namaProduk}]]</td>
+            </tr>
+            <tr>
+                <td style="width:10;">Gudang</td>
+                <td style="width: 90%;">: [[${header.gudangId == 0 ? 'Semua Gudang' : data[0].namaGudang}]]</td>
+            </tr>
+            <tr>
+                <td style="width: 100%;" colspan="2"><br></td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="width: 100%; border-collapse: collapse; border: 1px solid rgb(0, 0, 0);" id="print_data">
+        <tbody>
+            <th:block th:each="d : ${data}" th:with="qty_akhir=0,qty_masuk=0, qty_keluar=0">
+                    <tr>
+                        <td style="width: 100%; background-color: rgb(61, 142, 185); border: 1px solid rgb(0, 0, 0);" colspan="9" class="bgcolorg">
+                            [[${d.namaGudang}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 2.6164%; background-color: rgb(0, 0, 0); border: 0px solid rgb(239, 239, 239);">
+                            <div style="text-align: center;"><span style="color: rgb(239, 239, 239);">No</span></div>
+                        </td>
+                        <td
+                            style="width: 7.5%; background-color: rgb(0, 0, 0); border: 1px solid rgb(239, 239, 239);   border-bottom: 1px solid black;">
+                            <div style="text-align: center;"><span style="color: rgb(239, 239, 239);">Nomor</span></div>
+                        </td>
+                        <td
+                            style="width:7%; background-color: rgb(0, 0, 0); border: 1px solid rgb(239, 239, 239);   border-bottom: 1px solid black;">
+                            <div style="text-align: center;"><span style="color: rgb(239, 239, 239);">Tanggal</span></div>
+                        </td>
+                        <td
+                            style="width: 21.7742%; text-align: center; background-color: rgb(0, 0, 0); border: 1px solid rgb(239, 239, 239);   border-bottom: 1px solid black;">
+                            <span style="color: rgb(239, 239, 239);">Keterangan</span>
+                        </td>
+                        <td
+                            style="width: 8.8218%; text-align: center; background-color: rgb(0, 0, 0); border: 1px solid rgb(239, 239, 239);   border-bottom: 1px solid black;">
+                            <span style="color: rgb(239, 239, 239);">Kode</span>
+                        </td>
+                        <td
+                            style="width: 25.9766%; text-align: center; background-color: rgb(0, 0, 0); border: 1px solid rgb(239, 239, 239);   border-bottom: 1px solid black;">
+                            <span style="color: rgb(239, 239, 239);">Nama</span>
+                        </td>
+                        <td
+                            style="width: 5%; text-align: center; background-color: rgb(0, 0, 0); border: 1px solid rgb(239, 239, 239);   border-bottom: 1px solid black;">
+                            <span style="color: rgb(239, 239, 239);">Masuk</span>
+                        </td>
+                        <td
+                            style="width: 5%; background-color: rgb(0, 0, 0); border: 1px solid rgb(239, 239, 239);   border-bottom: 1px solid black;">
+                            <div style="text-align: center;"><span style="color: rgb(239, 239, 239);">Keluar</span></div>
+                        </td>
+                        <td style="width: 11.1111%; background-color: rgb(0, 0, 0); border: 1px solid rgb(0, 0, 0);">
+                            <div style="text-align: center;"><span style="color: rgb(239, 239, 239);">Satuan</span>n</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style=" border: 1px solid rgb(0, 0, 0);"><br></td>
+                        <td style=" border: 1px solid rgb(0, 0, 0);" colspan="5">Qty Awal</td>
+                        <td style=" text-align: right; border: 1px solid rgb(0, 0, 0);" colspan="2">[[${d.qtyAwal}]]</td>
+                        <td style=" border: 1px solid rgb(0, 0, 0);"><br></td>
+                    </tr>
+                    <tr th:each="dd,ii : ${d.detail}">
+                        <td style=" text-align: right; border: 1px solid rgb(0, 0, 0);">[[${ii.index + 1} ]]. </td>
+                        <td style=" border: 1px solid rgb(0, 0, 0);">[[${dd.nomor}]]</td>
+                        <td style=" text-align: center; border: 1px solid rgb(0, 0, 0);">[[${#dates.format(dd.tanggal, 'dd-MM-yyyy')}]]</td>
+                        <td style=" border: 1px solid rgb(0, 0, 0);">[[${dd.keterangan}]]</td>
+                        <td style=" border: 1px solid rgb(0, 0, 0);">[[${dd.kode}]]</td>
+                        <td style=" border: 1px solid rgb(0, 0, 0);">[[${dd.namaProduk}]]</td>
+                        <td style=" text-align: right; border: 1px solid rgb(0, 0, 0);" th:text="${dd.qty > 0 ? dd.qty : 0}"></td>
+                        <td style=" text-align: right; border: 1px solid rgb(0, 0, 0);"  th:text="${dd.qty < 0 ? dd.qty * -1 : 0}"></td>
+                        <td style=" border: 1px solid rgb(0, 0, 0);">[[${dd.namaSatuan}]]</td>
+                    </tr>
+                    <tr>
+                        <td style=" border: 1px solid rgb(0, 0, 0);"><br></td>
+                        <td style=" border: 1px solid rgb(0, 0, 0);" colspan="5">Qty Akhir</td>
+                        <td style=" text-align: right; border: 1px solid rgb(0, 0, 0);" colspan="2" th:text="${ d.detail == null ? 0 : #aggregates.sum(d.detail.![qty])}  + ${d.qtyAwal} "></td>
+                        <td style=" border: 1px solid rgb(0, 0, 0);" ></td>
+                    </tr>
+            
+            </th:block>
+            
+            
+            
+            
+        </tbody>
+    </table>
+    <p><br></p>
+</body>
+</html>
+<script>
+    window.print();
+</script>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="col-lg-12">
+
+            <div class="panel panel-hitam">
+                <div class="panel-heading">
+                    Detail <span th:text="${title}"></span>
+                </div>
+                <!-- /.panel-heading -->
+                <div style="padding-left:0; padding-right:0; padding-top: 11px;" class="panel-body">
+                    <div th:if="${data == null} ">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="tabeldetail">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding-left: 12px;">Data tidak ditemukan</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <table id="tabeltombol">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-default btn_back" id="btn_back" data-href="/supplier">
+                                                <i class="fa fa-arrow-left" aria-hidden="true" title="Back"></i>
+                                                Back
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div th:if="${data != null} ">
+                        <form id="form_data" class="form_data" autocomplete="off">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="tabeldetail">
+    
+                                    <tbody>
+                                        <tr>
+                                            <td class="label_caption">Kode</td>
+                                            <td th:utext="${data.kode}"></td>
+                                            <input type="hidden" name="id" class="form-control inputreg" id="txt_id" th:value="${data.id}"> </tr>
+                                        <tr>
+                                            <td class="label_caption">Nama</td>
+                                            <td th:utext="${data.nama}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label_caption">Alamat</td>
+                                            <td th:utext="${data.alamat}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label_caption">Telepon</td>
+                                            <td th:utext="${data.telepon}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label_caption">Fax</td>
+                                            <td th:utext="${data.fax}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table id="tabeltombol">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                
+                                                <button type="button" class="btn btn-default btn_back" id="btn_back" data-href="/supplier">
+                                                    <i class="fa fa-arrow-left" aria-hidden="true" title="Back"></i>
+                                                    Batal
+                                                </button>
+                                                <a th:href="@{'/supplier/edit/'+${data.id}}" class="btn btn-default" role="button">
+                                                    <i class="fa fa-pencil" aria-hidden="true" title="Edit data"></i>
+                                                    Edit
+                                                </a>
+                                                <button type="button" class="btn btn-default" id="btn_hapus">
+                                                    <i class="fa fa-trash" aria-hidden="true" title="Delete data"></i>
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.panel-body -->
+
+                <!-- <div class="panel-footer">
+        
+                                    </div> -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+    <th:block layout:fragment="script">
+        <script th:src="@{~/mastertemplate/js/jquery.serialize-object.min.js}"></script>
+        <script th:inline="javascript">
+            var id = [[${ data != null ? data.id : null}]];
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('#btn_hapus').on('click', function (e) {
+                    var answer = window.confirm("Hapus data?");
+                    if (answer) {
+                       e.preventDefault();
+                        var value = $("#form_data").serializeJSON();
+                        $("#btn_hapus").prop("disabled", true);
+                        $.ajax({
+                            contentType: "application/json",
+                            type: "DELETE",
+                            url: "/supplier/" + id,
+                            data: value,
+                            dataType: 'json',
+                            success: function (res) {
+                                alert(res.message);
+                                $("#btn_back").click();
+                            },
+                            error: function (res) {
+                                alert(res.responseJSON.message)
+                            },
+                            complete: function (res) {
+                                $("#btn_hapus").prop("disabled", false);;
+                            }
+                        });
+                    }
+                });
+                $('.btn_back').on('click', function () {
+                    window.location.href = $(this).data('href');
+                });
+            });
+        </script>
+    </th:block>
+</body>
+
+</html>
+

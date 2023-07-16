@@ -1,0 +1,40 @@
+
+
+.table.dataTable thead {
+    background-color: black;
+    color: #fff;
+    padding: 0;
+}
+
+.table th {
+    text-align: center;
+    font-size: small;
+}
+
+.table td {
+    font-size: 13px;
+}
+
+.table-bordered {
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+.container-fluid {
+    margin-top: 0;
+    margin-left: auto;
+}
+
+
+
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after {
+    color: #fff;
+    opacity: 0.4 !important;
+}

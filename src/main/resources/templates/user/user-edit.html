@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="col-lg-12">
+            
+            <div class="panel panel-hitam">
+                <div class="panel-heading">
+                    Edit <span th:text="${title}"></span>
+                </div>
+                <!-- /.panel-heading -->
+                <div style="padding-left:0; padding-right:0; padding-top: 11px;" class="panel-body">
+                    <div th:if="${data == null} ">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="tabeldetail">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding-left: 12px;">Data tidak ditemukan</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <table id="tabeltombol">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-default" id="btntambah">
+                                                <i class="fa fa-arrow-left" aria-hidden="true" title="Back"></i>
+                                                Back
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div th:if="${data != null} ">
+                        <form id="form_data" class="form_data" autocomplete="off">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="tabeldetail">
+    
+                                    <tbody>
+                                        <tr>
+                                            <td class="label_caption">Username</td>
+                                            <td >
+                                                <input type="text" name="name" class="form-control inputreg" id="txt_name" th:value="${data.name}">
+                                                <input type="hidden" name="id" class="form-control inputreg" id="txt_id" th:value="${data.id}">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label_caption">Role</td>
+                                            <td >
+                                                <select name="role_id" class="form-control inputreg" id="role_id">
+                                                    <option th:each="lg : ${role_list}" th:text="${lg.name}" th:value="${lg.id}" th:selected="${lg.id} == ${data.roleId}">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label_caption">Password</td>
+                                            <td >
+                                                <input type="password" name="password" class="form-control inputreg" id="txt_password" >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label_caption">Aktif</td>
+                                            <td>
+                                                <select name="enabled" class="form-control inputreg" id="enabled">
+                                                    <option value="true" th:selected="${data.enabled == true}">YA</option>
+                                                    <option value="false" th:selected="${data.enabled == false}">TIDAK</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table id="tabeltombol">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <button type="button" class="btn btn-default btn_back" id="btn_back" data-href="/user">
+                                                    <i class="fa fa-arrow-left" aria-hidden="true" title="Back"></i>
+                                                    Batal
+                                                </button>
+                                                <button type="button" class="btn btn-default" id="btn_save">
+                                                    <i class="fa fa-download" aria-hidden="true" title="Save data"></i>
+                                                    Save
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.panel-body -->
+
+                <!-- <div class="panel-footer">
+        
+                                    </div> -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+    <th:block layout:fragment="script">
+        <script th:src="@{~/mastertemplate/js/jquery.serialize-object.min.js}"></script>
+        <script>
+            $(document).ready(function () {
+                $("#txt_name").focus();
+                 $(document).on("click", "#btn_save", function (e) {
+                    e.preventDefault();
+                    var value = $("#form_data").serializeJSON();
+                    $("#btn_save").prop("disabled", true);
+                    $.ajax({
+                        contentType: "application/json",
+                        type: "POST",
+                        url: "/user_edit",
+                        data: value,
+                        dataType: 'json',
+                        success: function (res) {
+                            alert(res.message);
+                            $("#btn_back").click();
+                        },
+                        error: function (res) {
+                            alert(res.responseJSON.message)
+                        },
+                        complete: function (res) {
+                            $("#btn_save").prop("disabled", false);;
+                        }
+                    });
+                });
+
+                 $('.btn_back').on('click', function () {
+                    window.location.href = $(this).data('href');
+                });
+            });
+        </script>
+    </th:block>
+</body>
+
+</html>

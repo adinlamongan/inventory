@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <style>
+        .table-borderedcustom>thead>tr>th,
+        .table-borderedcustom>tbody>tr>td {
+            border: 1px solid #ddd;
+    
+        }
+    
+        .table-borderedcustom>thead>tr>th:last-child,
+        .table-borderedcustom>tbody>tr>td:last-child {
+            border-right: 0px solid #ddd;
+        }
+    
+        .table-borderedcustom>thead {
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #222;
+        }
+    
+        .table-borderedcustom {
+            border: 1px solid #ddd;
+    
+        }
+    
+        .table-borderedcustom>thead>tr>th {
+            text-align: center;
+            font-size: normal;
+            border-left: 0px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="col-lg-12">
+
+            <div class="panel panel-hitam">
+                <div class="panel-heading">
+                    SETTING <span th:text="${data.name}"></span>
+                </div>
+                <!-- /.panel-heading -->
+                <div style="padding-left:0; padding-right:0; padding-top: 11px;" class="panel-body">
+                    <div th:if="${data == null} ">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="tabeldetail">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding-left: 12px;">Data tidak ditemukan</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <table id="tabeltombol">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-default btn_back" id="btn_back" data-href="/role">
+                                                <i class="fa fa-arrow-left" aria-hidden="true" title="Back"></i>
+                                                Back
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div th:if="${data != null} ">
+                        <form id="form_data" class="form_data" autocomplete="off">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="tabeldetail">
+    
+                                    <tbody>
+                                        <tr>
+                                            <td >&nbsp;</td>
+                                            <input type="hidden" name="role_id" class="form-control inputreg" id="txt_id" th:value="${data.id}"> 
+                                        </tr>
+                                        <tr>
+                                            <td >
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-borderedcustom table-hover" id="tabeldetail_d">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:60px">No.</th>
+                                                                <th>Menu</th>
+                                                                <th width="80px">Index</th>
+                                                                <th width="80px">Tambah</th>
+                                                                <th width="80px">Detail</th>
+                                                                <th width="80px">Ubah</th>
+                                                                <th width="80px">Hapus</th>
+                                                                <th width="80px">Verifikasi</th>
+                                                                <th width="80px">Batal Verifikasi</th>
+                                                                <th width="80px">Print</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                           
+                                                            <th:block th:each="user : ${menu_sub}">
+                                                                <tr >
+                                                                    <td th:text="${user.menu}" colspan="9"></td>
+                                                                </tr>
+                                                                <tr th:each="dd,ii : ${user.lisMenuSub}">
+                                                                    <td class="tdnourut">
+                                                                        <input type="hidden" name="menu_id[]" th:value="${dd.menu_id}">
+                                                                        <input type="hidden" name="no_urut[]" th:value="${dd.no_urut}">
+                                                                        <input type="hidden" name="url[]" th:value="${dd.url}">
+                                                                        <input type="hidden" name="nama[]" th:value="${dd.nama}">
+                                                                        [[${ii.index + 1} ]].
+                                                                    </td>
+                                                                    <td th:text="${dd.nama}"></td>
+                                                                    <td align="center"> 
+                                                                        <input type="checkbox"  class="ck"  th:checked="${dd.utama} ? 'checked'">
+                                                                        <input type="hidden" class="txt" name="utama[]" th:value="${dd.utama}" >
+                                                                    </td>
+                                                                    <td align="center"> 
+                                                                        <input type="checkbox"  class="ck"  th:checked="${dd.tambah} ? 'checked'">
+                                                                        <input type="hidden" class="txt" name="tambah[]" th:value="${dd.tambah}" >
+                                                                    </td>
+                                                                    <td align="center"> 
+                                                                        <input type="checkbox"  class="ck"  th:checked="${dd.detail} ? 'checked'">
+                                                                        <input type="hidden"  class="txt" name="detail[]" th:value="${dd.detail}">
+                                                                    </td>
+                                                                    <td align="center"> 
+                                                                        <input type="checkbox" class="ck"  th:checked="${dd.edit} ? 'checked'">
+                                                                        <input type="hidden"  class="txt" name="edit[]" th:value="${dd.edit}">
+                                                                    </td>
+                                                                    <td align="center"> 
+                                                                        <input type="checkbox"  class="ck"  th:checked="${dd.hapus} ? 'checked'">
+                                                                        <input type="hidden"  class="txt" name="hapus[]" th:value="${dd.hapus}">
+                                                                    </td>
+                                                                    <td align="center"> 
+                                                                        <input type="checkbox"  class="ck"  th:checked="${dd.verifikasi} ? 'checked'">
+                                                                        <input type="hidden"  class="txt" name="verifikasi[]" th:value="${dd.verifikasi}">
+                                                                    </td>
+                                                                    <td align="center"> 
+                                                                        <input type="checkbox"  class="ck"  th:checked="${dd.batalVerifikasi} ? 'checked'">
+                                                                        <input type="hidden"  class="txt" name="batal_verifikasi[]" th:value="${dd.batalVerifikasi}">
+                                                                    </td>
+                                                                    <td align="center"> 
+                                                                        <input type="checkbox"  class="ck"  th:checked="${dd.print} ? 'checked'">
+                                                                        <input type="hidden"  class="txt" name="print[]" th:value="${dd.print}">
+                                                                    </td>
+                                                                </tr>
+                                                            </th:block>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table id="tabeltombol">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <button type="button" class="btn btn-default btn_back" id="btn_back" data-href="/role">
+                                                    <i class="fa fa-arrow-left" aria-hidden="true" title="Back"></i>
+                                                    Batal
+                                                </button>
+                                                <button type="button" class="btn btn-default" id="btn_save">
+                                                    <i class="fa fa-download" aria-hidden="true" title="Save data"></i>
+                                                    Save
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.panel-body -->
+
+                <!-- <div class="panel-footer">
+        
+                                    </div> -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+    <th:block layout:fragment="script">
+        <script th:src="@{~/mastertemplate/js/jquery.serialize-object.min.js}"></script>
+        <script>
+            $(document).ready(function () {
+                 $(document).on("click", ".ck", function (e) {
+                    let val = true;
+                    if ($(this).is(":checked") == true) {
+                         val = true
+                     } else {
+                        val = false;
+                    }
+                    $(this).closest('td').find('.txt').val(val);
+                });
+
+                $(document).on("click", "#btn_save", function (e) {
+                    var value = $("#form_data").serializeJSON();
+                    $("#btn_save").prop("disabled", true);
+                    $.ajax({
+                        contentType: "application/json",
+                        type: "POST",
+                        url: "/role_setting",
+                        data: value,
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.status == 0) {
+                                alert('Gagal simpan data');
+                            } else {
+                                alert('Berhasil simpan data');
+                                $("#btn_back").click()
+                            }
+                            $("#btn_save").prop("disabled", false);;
+                        }
+                    });
+                });
+
+                $('.btn_back').on('click', function () {
+                    window.location.href = $(this).data('href');
+                });
+            });
+        </script>
+    </th:block>
+</body>
+
+</html>
+

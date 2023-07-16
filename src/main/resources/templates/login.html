@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Login</title>
+
+    <link th:href="@{~/mastertemplate/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link th:href="@{~/mastertemplate/css/metisMenu.min.css}" rel="stylesheet">
+
+
+
+    <!-- Custom CSS -->
+    <link th:href="@{~/mastertemplate/css/startmin.css}" rel="stylesheet">
+    <link th:href="@{~/mastertemplate/css/custombreadcum.css}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link th:href="@{~/mastertemplate/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+    <div class="container" style="position: absolute; top: 40%; left: 55%; transform: translate(-50%,-50%);">
+        <div class="row">
+            <div class="col-md-3 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    
+                    <div class="panel-body">
+                        <p th:if="${loginError}" class="error">Wrong user or password</p>
+                        <form role="form" th:action="@{/login}" method="post">
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control " placeholder="User name" name="username" type="text"
+                                        autofocus value="admin">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password" type="password"
+                                        value="codejava">
+                                </div>
+                                <!-- Change this to a button or input when using this as a form -->
+                                <input type="submit" value="Log in" class="btn btn-primary btn-block" />
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script th:src="@{~/mastertemplate/js/jquery.min.js}"></script>
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script th:src="@{~/mastertemplate/js/bootstrap.min.js}"></script>
+    
+    <!-- Metis Menu Plugin JavaScript -->
+    <script th:src="@{~/mastertemplate/js/metisMenu.min.js}"></script>
+    
+    <!-- Custom Theme JavaScript -->
+    <script th:src="@{~/mastertemplate/js/startmin.js}"></script>
+
+</body>
+
+</html>

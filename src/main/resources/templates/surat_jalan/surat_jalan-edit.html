@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="col-lg-12">
+
+            <div class="panel panel-hitam">
+                <div class="panel-heading">
+                    Edit <span th:text="${title}"></span>
+                </div>
+                <!-- /.panel-heading -->
+                <div style="padding-left:0; padding-right:0; padding-top: 11px;" class="panel-body">
+                    <div th:if="${data == null} ">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="tabeldetail">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding-left: 12px;">Data tidak ditemukan</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                            <table id="tabeltombol">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-default" id="btntambah">
+                                                <i class="fa fa-arrow-left" aria-hidden="true" title="Back"></i>
+                                                Back
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div th:if="${data != null} ">
+                        <form id="form_data" class="form_data" autocomplete="off">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="tabeldetail">
+
+                                    <tbody>
+                                        <tr>
+                                            <td class="label_caption">Nomor</td>
+                                            <td>
+                                                <input type="text" name="nomor" class="form-control inputsm" readonly id="txt_nomor" th:value="${data.nomor}">
+                                                <input type="hidden" name="id" class="form-control inputsm" id="txt_id" th:value="${data.id}">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label_caption">Tanggal</td>
+                                            <td>
+                                                <input type="date" name="tanggal" class="form-control inputsm" id="txt_tanggal" th:value="${data.tanggal}">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label_caption">Nomor SO</td>
+                                            <td>
+                                                <input type="text" name="nomor_so" class="form-control inputsm" readonly id="txt_nomor_so" th:value="${data.nomorSo}">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label_caption">Customer</td>
+                                            <td>
+                                                <input type="text" name="customer" class="form-control inputreg" readonly id="txt_customer" th:value="${data.namaCustomer}">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label_caption">Keterangan</td>
+                                            <td>
+                                                <textarea class="form-control inputreg" rows="3" name="keterangan" th:text="${data.keterangan}"></textarea>
+                                            </td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="panel panel-primary">
+                                                    <div class="panel-heading">
+                                                        Daftar Barang
+                                                    </div>
+                                        
+                                                    <!-- /.panel-heading -->
+                                                    <div style="padding-left:0; padding-right:0; padding-top: 0px;" class="panel-body">
+                                                        <div th:if="${datadetail == null} ">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-bordered table-hover" id="tabeldetail_d">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="padding-left: 12px;">Data tidak ada</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div th:if="${datadetail != null} ">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped table-bordered table-hover" id="tabeldetail_d">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="width:60px">No.</th>
+                                                                            <th>Kode</th>
+                                                                            <th>Nama</th>
+                                                                            <th>Satuan</th>
+                                                                            <th>Qty SO</th>
+                                                                            <th>Gudang</th>
+                                                                            <th>Stok Gudang</th>
+                                                                            <th style="width:120px">Qty SJ</th>
+                                                                            <th style="width:90px">Sisa Stok</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr th:each="dd,ii: ${datadetail}">
+                                                                            <td class="tdnourut">[[${ii.index + 1} ]].
+                                                                            </td>
+                                                                            <td>[[${dd.kodeProduk}]]</td>
+                                                                            <td>[[${dd.namaProduk}]]</td>
+                                                                            <td>[[${dd.namaSatuan}]]</td>
+                                                                            <td class="tdangka">[[${dd.qtySo}]]</td>
+                                                                            <td>
+                                                                                <select name="gudang_id[]" class="form-control pilih_gudang">
+                                                                                    <option th:each="lg : ${listgudang}" th:text="${lg.nama}" th:value="${lg.id}" th:selected="${lg.id} == ${dd.gudangId}">
+                                                                                </select>
+                                                                                <input type="hidden" name="detail_id[]" th:value="${dd.id}">
+                                                                                <input type="hidden" name="sales_order_detail_id[]" th:value="${dd.salesOrderDetailId}">
+                                                                                <input type="hidden" class="produk_id" name="produk_id[]"  th:value="${dd.produkId}">
+                                                                                <input type="hidden" class="sisa" th:value="${dd.qtySo - dd.qty}">
+                                                                                <input type="hidden" class="txt_sisa_stok_gudang" th:value="${dd.qtyStok}">
+                                                                                <input type="hidden" class="txt_stok_gudang" th:value="${dd.qtyStok + dd.qty}">
+                                                                                <input type="hidden" class="txt_old_gudang_id" th:value="${dd.gudangId}">
+                                                                                <input type="hidden" class="txt_old_qty" th:value="${dd.qty}">
+                                                                                <input type="hidden" class="txt_stok_id" name="stok_id[]" th:value="${dd.stokId}">
+                                                                            </td>
+                                                                            <td class="tdangka stok_gudang">
+                                                                                [[${dd.qtyStok + dd.qty}]]
+                                                                               
+                                                                            </td>
+                                                                            <td >
+                                                                                <input type="text" class="form-control input_angka_decimal qty_sj" name="qty[]" th:value="${#numbers.formatDecimal(dd.qty,3,2,'COMMA')}">
+                                                                               
+                                                                            </td>
+                                                                            <td class="tdangka sisa_stok_gudang">
+                                                                                [[${dd.qtyStok}]]
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr id="tr_kosong">
+                                                                            <td colspan="8" style="text-align: center; display:none;">
+                                                                                Tidak ada data
+                                                                            </td>
+                                                                        </tr>
+                                        
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                        
+                                                    </div>
+                                                    <!-- /.panel-body -->
+
+                                                    <!-- <div class="panel-footer">
+                                                                                                
+                                                                                                                            </div> -->
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table id="tabeltombol">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <button type="button" class="btn btn-default btn_back" id="btn_back"
+                                                    data-href="/surat_jalan">
+                                                    <i class="fa fa-arrow-left" aria-hidden="true" title="Back"></i>
+                                                    Batal
+                                                </button>
+                                                <button type="button" class="btn btn-default" id="btn_save">
+                                                    <i class="fa fa-download" aria-hidden="true" title="Save data"></i>
+                                                    Save
+                                                </button>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- /.panel-body -->
+
+                <!-- <div class="panel-footer">
+        
+                                    </div> -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+    <th:block layout:fragment="script">
+        <script th:src="@{~/mastertemplate/js/jquery.serialize-object.min.js}"></script>
+        <script th:src="@{~/mastertemplate/jquery-ui-1.12.1.custom/jquery-ui.min.js}"></script>
+        <script th:src="@{~/mastertemplate/js/format.js}"></script>
+        <script th:src="@{~/mastertemplate/js/jquery.number.js}"></script>
+        <script th:inline="javascript">
+            var id = [[${ data != null ? data.id : null}]];
+        </script>
+        <script>
+
+
+            $(document).ready(function () {
+                $("#txt_kode").focus();
+                $(".tdangka").each(function (i, ele) {
+                    $(this).text(format("#.##0,#0", $(this).text()));
+                });
+                $("input.input_angka_decimal").number(true, 2);
+
+                $('.hitung_total_detail').on('keyup', function () {
+                    var qty = $('#txt_jumlah').val();
+                    var harga = $('#txt_harga').val();
+                    var total = parseFloat(qty) * parseFloat(harga);
+                    $('#txt_total_detail').val(total);
+                });
+
+                $('body').on('keyup', '.qty_sj', function () {
+                     let tr_row = $(this).closest('tr');
+                    let qty_sj = $(this).val();
+                    let qty_so = tr_row.find(".stok_gudang").text();
+                    let sisa = parseFloat(convertToRawValue(qty_so)) - parseFloat(qty_sj);
+                    tr_row.find(".sisa_stok_gudang").text(format("#.##0,#0", sisa));
+                    tr_row.find(".txt_sisa_stok_gudang").val(sisa);
+
+                });
+
+
+                function hitungTotal() {
+                    var total = 0;
+                    $('.detail_total').each(function (i) {
+                        total += parseFloat($(this).val());
+                    });
+                    $('#txt_total').val(total);
+                    $('#lbl_total').html($.number(total, 2));
+                    console.log(total);
+                }
+
+                function nomorUrut() {
+                    var show = true;
+                    $('.tdnourut').each(function (i) {
+                        $(this).html(i + 1 + '.');
+                        show = false;
+                    });
+                    if (show) {
+                        $("#tr_kosong").show();
+                    } else {
+                        $("#tr_kosong").hide();
+                    }
+                }
+
+                function cekDuplicateBarang(produkid) {
+                    var cek = false;
+                    $('.detail_produkid').each(function (i) {
+                        if (produkid == $(this).val()) {
+                            cek = true;
+                        }
+                    });
+                    return cek;
+                }
+
+                $(document).on("click", "#btn_save", function (e) {
+                    e.preventDefault();
+
+                    let val_gudang = 0;
+                    $('.pilih_gudang').each(function (i) {
+                        val_gudang = parseFloat($(this).val());
+                        if (val_gudang < 1) {
+                            return false;
+                        }
+                    });
+                    if (val_gudang < 1) {
+                        alert("pilih gudang terlebih dahulu");
+                        return false;
+                    }
+
+                    let sisa = 0
+                    $('.txt_sisa_stok_gudang').each(function (i) {
+                        sisa = parseFloat($(this).val());
+                        if (sisa < 0) {
+                            return false;
+                        }
+                    });
+                    if (sisa < 0) {
+                        alert("stok gudang tidak cukup");
+                        return false;
+                    }
+                    var value = $("#form_data").serializeJSON();
+
+                    $("#btn_save").prop("disabled", true);
+                    $.ajax({
+                        contentType: "application/json",
+                        type: "PUT",
+                        url: "/surat_jalan/" + id,
+                        data: value,
+                        dataType: 'json',
+                        success: function (res) {
+                            alert(res.message);
+                            $("#btn_back").click();
+                        },
+                        error: function (res) {
+                            alert(res.responseJSON.message)
+                        },
+                        complete: function (res) {
+                            $("#btn_save").prop("disabled", false);;
+                        }
+                    });
+                });
+
+                $(document).on("change", ".pilih_gudang", function (e) {
+                    e.preventDefault();
+                    let tr_row = $(this).closest('tr');
+                    let gudang_id = $(this).val();
+                    let produk_id = tr_row.find(".produk_id").val();;
+                    let old_gudang_id = tr_row.find(".txt_old_gudang_id").val();;
+                    let old_qty = parseFloat(tr_row.find(".txt_old_qty").val());
+                    let stok;
+                    $.ajax({
+                        contentType: "application/json",
+                        type: "GET",
+                        url: "/surat_jalan/get_stok/" + gudang_id + "/" + produk_id,
+
+                        dataType: 'json',
+                        success: function (res) {
+                            stok = res.qty ;
+                            if(gudang_id == old_gudang_id){
+                                stok = parseFloat(res.qty) + old_qty;   
+                            }
+                            tr_row.find(".stok_gudang").text(format("#.##0,#0", res.qty));
+                            tr_row.find(".txt_stok_gudang").val(stok);
+                            tr_row.find(".qty_sj").keyup();
+                            tr_row.find(".txt_stok_id").val(res.id);
+                        }
+                    });
+                });
+
+                $('.btn_back').on('click', function () {
+                    window.location.href = $(this).data('href');
+                });
+
+            });
+
+
+        </script>
+    </th:block>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<div class="navbar-inverse sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="sidebar-search" style=" background-color: #333131; padding: 18px;">
+                <!-- /input-group -->
+            </li>
+            <!-- <li>
+                <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> [[${msg}]]</a>
+            </li> -->
+            <th:block th:each="d : ${akses}">
+                <li th:if="${d.aktif == true}">
+                    <a href="#"><i th:class="${d.icon}"></i> [[${d.menu}]] <span class="fa arrow"></span></a>
+                    <ul   class="nav nav-second-level" >
+                        <li  th:each="dd : ${d.lisMenuSub}"  th:if="${dd.utama == true}" >
+                            <a th:id="${dd.id}" th:href="@{/{url}(url=${dd.url})}" >
+                                <span th:text="${dd.nama}"></span>
+                            </a>
+                        </li>
+                       
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+            </th:block>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
